@@ -1,0 +1,904 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ABModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnimalDetails">
+          <Key>
+            <PropertyRef Name="AnimalsId" />
+          </Key>
+          <Property Name="AnimalsId" Type="int" Nullable="false" />
+          <Property Name="Test" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="AnimalProductTypes">
+          <Key>
+            <PropertyRef Name="AnimalProductTypesId" />
+          </Key>
+          <Property Name="AnimalProductTypesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ProductingByGender" Type="int" />
+        </EntityType>
+        <EntityType Name="Animals">
+          <Key>
+            <PropertyRef Name="AnimalId" />
+          </Key>
+          <Property Name="AnimalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnimalSpiecesId" Type="int" Nullable="false" />
+          <Property Name="HerdId" Type="int" />
+          <Property Name="Name" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="AccountNum" Type="nchar" MaxLength="10" />
+          <Property Name="Sex" Type="int" />
+          <Property Name="Age" Type="int" />
+          <Property Name="AgeOnInitInDays" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="InitDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnimalSpecies">
+          <Key>
+            <PropertyRef Name="AnimalSpeciesId" />
+          </Key>
+          <Property Name="AnimalSpeciesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnimalSpiecesProductTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnimalSpiecesId" Type="int" Nullable="false" />
+          <Property Name="AnimalProductTypesId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="ProductionIntervalsId" Type="int" />
+          <Property Name="FirstPossibleAbuseInDays" Type="int" />
+          <Property Name="NextAbusePeriodInDays" Type="int" />
+          <Property Name="MissAbusePenality" Type="int" />
+          <Property Name="MaxPeriodProduction" Type="int" />
+          <Property Name="DailyProductionDecreaseIndex" Type="decimal" Precision="4" Scale="3" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntityStatuses">
+          <Key>
+            <PropertyRef Name="EntityStatusId" />
+          </Key>
+          <Property Name="EntityStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genders">
+          <Key>
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="GenderId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Sign" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Herds">
+          <Key>
+            <PropertyRef Name="HerdId" />
+          </Key>
+          <Property Name="HerdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnimalSpiecesId" Type="int" Nullable="false" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductionIntervals">
+          <Key>
+            <PropertyRef Name="ProductionIntervalId" />
+          </Key>
+          <Property Name="ProductionIntervalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionIntervalName" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="ProductionIntervalDescription" Type="varchar(max)" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AnimalDetails_Animals">
+          <End Role="Animals" Type="Self.Animals" Multiplicity="1" />
+          <End Role="AnimalDetails" Type="Self.AnimalDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Animals">
+              <PropertyRef Name="AnimalId" />
+            </Principal>
+            <Dependent Role="AnimalDetails">
+              <PropertyRef Name="AnimalsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalProductTypes_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalProductTypes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalProductTypes_Genders">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="AnimalProductTypes">
+              <PropertyRef Name="ProductingByGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_EntityStatuses1">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_Genders">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Sex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_Herds">
+          <End Role="Herds" Type="Self.Herds" Multiplicity="0..1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Herds">
+              <PropertyRef Name="HerdId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="HerdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpecies_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalSpecies">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_AnimalProductTypes">
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalProductTypes">
+              <PropertyRef Name="AnimalProductTypesId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="AnimalProductTypesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_ProductionIntervals">
+          <End Role="ProductionIntervals" Type="Self.ProductionIntervals" Multiplicity="0..1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductionIntervals">
+              <PropertyRef Name="ProductionIntervalId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="ProductionIntervalsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Herds_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="Herds" Type="Self.Herds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="Herds">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Herds_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Herds" Type="Self.Herds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Herds">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionInterval_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="ProductionIntervals" Type="Self.ProductionIntervals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="ProductionIntervals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ABModelStoreContainer">
+          <EntitySet Name="AnimalDetails" EntityType="Self.AnimalDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnimalProductTypes" EntityType="Self.AnimalProductTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Animals" EntityType="Self.Animals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnimalSpecies" EntityType="Self.AnimalSpecies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnimalSpiecesProductTypes" EntityType="Self.AnimalSpiecesProductTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntityStatuses" EntityType="Self.EntityStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Herds" EntityType="Self.Herds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductionIntervals" EntityType="Self.ProductionIntervals" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AnimalDetails_Animals" Association="Self.FK_AnimalDetails_Animals">
+            <End Role="Animals" EntitySet="Animals" />
+            <End Role="AnimalDetails" EntitySet="AnimalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalProductTypes_EntityStatuses" Association="Self.FK_AnimalProductTypes_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalProductTypes_Genders" Association="Self.FK_AnimalProductTypes_Genders">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_AnimalSpecies" Association="Self.FK_Animals_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_EntityStatuses" Association="Self.FK_Animals_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_EntityStatuses1" Association="Self.FK_Animals_EntityStatuses1">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_Genders" Association="Self.FK_Animals_Genders">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_Herds" Association="Self.FK_Animals_Herds">
+            <End Role="Herds" EntitySet="Herds" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpecies_EntityStatuses" Association="Self.FK_AnimalSpecies_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_AnimalProductTypes" Association="Self.FK_AnimalSpiecesProductTypes_AnimalProductTypes">
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_AnimalSpecies" Association="Self.FK_AnimalSpiecesProductTypes_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_EntityStatuses" Association="Self.FK_AnimalSpiecesProductTypes_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_ProductionIntervals" Association="Self.FK_AnimalSpiecesProductTypes_ProductionIntervals">
+            <End Role="ProductionIntervals" EntitySet="ProductionIntervals" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Herds_AnimalSpecies" Association="Self.FK_Herds_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="Herds" EntitySet="Herds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Herds_EntityStatuses" Association="Self.FK_Herds_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Herds" EntitySet="Herds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionInterval_EntityStatuses" Association="Self.FK_ProductionInterval_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="ProductionIntervals" EntitySet="ProductionIntervals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ABModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnimalDetails">
+          <Key>
+            <PropertyRef Name="AnimalsId" />
+          </Key>
+          <Property Name="AnimalsId" Type="Int32" Nullable="false" />
+          <Property Name="Test" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.FK_AnimalDetails_Animals" FromRole="AnimalDetails" ToRole="Animals" />
+        </EntityType>
+        <EntityType Name="AnimalProductTypes">
+          <Key>
+            <PropertyRef Name="AnimalProductTypesId" />
+          </Key>
+          <Property Name="AnimalProductTypesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ProductingByGender" Type="Int32" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_AnimalProductTypes_EntityStatuses" FromRole="AnimalProductTypes" ToRole="EntityStatuses" />
+          <NavigationProperty Name="Genders" Relationship="Self.FK_AnimalProductTypes_Genders" FromRole="AnimalProductTypes" ToRole="Genders" />
+          <NavigationProperty Name="AnimalSpiecesProductTypes" Relationship="Self.FK_AnimalSpiecesProductTypes_AnimalProductTypes" FromRole="AnimalProductTypes" ToRole="AnimalSpiecesProductTypes" />
+        </EntityType>
+        <EntityType Name="Animals">
+          <Key>
+            <PropertyRef Name="AnimalId" />
+          </Key>
+          <Property Name="AnimalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnimalSpiecesId" Type="Int32" Nullable="false" />
+          <Property Name="HerdId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Sex" Type="Int32" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="AgeOnInitInDays" Type="Decimal" Nullable="false" />
+          <Property Name="InitDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnimalDetails" Relationship="Self.FK_AnimalDetails_Animals" FromRole="Animals" ToRole="AnimalDetails" />
+          <NavigationProperty Name="AnimalSpecies" Relationship="Self.FK_Animals_AnimalSpecies" FromRole="Animals" ToRole="AnimalSpecies" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_Animals_EntityStatuses" FromRole="Animals" ToRole="EntityStatuses" />
+          <NavigationProperty Name="EntityStatuses1" Relationship="Self.FK_Animals_EntityStatuses1" FromRole="Animals" ToRole="EntityStatuses" />
+          <NavigationProperty Name="Genders" Relationship="Self.FK_Animals_Genders" FromRole="Animals" ToRole="Genders" />
+          <NavigationProperty Name="Herds" Relationship="Self.FK_Animals_Herds" FromRole="Animals" ToRole="Herds" />
+        </EntityType>
+        <EntityType Name="AnimalSpecies">
+          <Key>
+            <PropertyRef Name="AnimalSpeciesId" />
+          </Key>
+          <Property Name="AnimalSpeciesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.FK_Animals_AnimalSpecies" FromRole="AnimalSpecies" ToRole="Animals" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_AnimalSpecies_EntityStatuses" FromRole="AnimalSpecies" ToRole="EntityStatuses" />
+          <NavigationProperty Name="AnimalSpiecesProductTypes" Relationship="Self.FK_AnimalSpiecesProductTypes_AnimalSpecies" FromRole="AnimalSpecies" ToRole="AnimalSpiecesProductTypes" />
+          <NavigationProperty Name="Herds" Relationship="Self.FK_Herds_AnimalSpecies" FromRole="AnimalSpecies" ToRole="Herds" />
+        </EntityType>
+        <EntityType Name="AnimalSpiecesProductTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnimalSpiecesId" Type="Int32" Nullable="false" />
+          <Property Name="AnimalProductTypesId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProductionIntervalsId" Type="Int32" />
+          <Property Name="FirstPossibleAbuseInDays" Type="Int32" />
+          <Property Name="NextAbusePeriodInDays" Type="Int32" />
+          <Property Name="MissAbusePenality" Type="Int32" />
+          <Property Name="MaxPeriodProduction" Type="Int32" />
+          <Property Name="DailyProductionDecreaseIndex" Type="Decimal" Precision="4" Scale="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnimalProductTypes" Relationship="Self.FK_AnimalSpiecesProductTypes_AnimalProductTypes" FromRole="AnimalSpiecesProductTypes" ToRole="AnimalProductTypes" />
+          <NavigationProperty Name="AnimalSpecies" Relationship="Self.FK_AnimalSpiecesProductTypes_AnimalSpecies" FromRole="AnimalSpiecesProductTypes" ToRole="AnimalSpecies" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_AnimalSpiecesProductTypes_EntityStatuses" FromRole="AnimalSpiecesProductTypes" ToRole="EntityStatuses" />
+          <NavigationProperty Name="ProductionIntervals" Relationship="Self.FK_AnimalSpiecesProductTypes_ProductionIntervals" FromRole="AnimalSpiecesProductTypes" ToRole="ProductionIntervals" />
+        </EntityType>
+        <EntityType Name="EntityStatuses">
+          <Key>
+            <PropertyRef Name="EntityStatusId" />
+          </Key>
+          <Property Name="EntityStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnimalProductTypes" Relationship="Self.FK_AnimalProductTypes_EntityStatuses" FromRole="EntityStatuses" ToRole="AnimalProductTypes" />
+          <NavigationProperty Name="Animals" Relationship="Self.FK_Animals_EntityStatuses" FromRole="EntityStatuses" ToRole="Animals" />
+          <NavigationProperty Name="Animals1" Relationship="Self.FK_Animals_EntityStatuses1" FromRole="EntityStatuses" ToRole="Animals" />
+          <NavigationProperty Name="AnimalSpecies" Relationship="Self.FK_AnimalSpecies_EntityStatuses" FromRole="EntityStatuses" ToRole="AnimalSpecies" />
+          <NavigationProperty Name="AnimalSpiecesProductTypes" Relationship="Self.FK_AnimalSpiecesProductTypes_EntityStatuses" FromRole="EntityStatuses" ToRole="AnimalSpiecesProductTypes" />
+          <NavigationProperty Name="Herds" Relationship="Self.FK_Herds_EntityStatuses" FromRole="EntityStatuses" ToRole="Herds" />
+          <NavigationProperty Name="ProductionIntervals" Relationship="Self.FK_ProductionInterval_EntityStatuses" FromRole="EntityStatuses" ToRole="ProductionIntervals" />
+        </EntityType>
+        <EntityType Name="Genders">
+          <Key>
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Sign" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="AnimalProductTypes" Relationship="Self.FK_AnimalProductTypes_Genders" FromRole="Genders" ToRole="AnimalProductTypes" />
+          <NavigationProperty Name="Animals" Relationship="Self.FK_Animals_Genders" FromRole="Genders" ToRole="Animals" />
+        </EntityType>
+        <EntityType Name="Herds">
+          <Key>
+            <PropertyRef Name="HerdId" />
+          </Key>
+          <Property Name="HerdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnimalSpiecesId" Type="Int32" Nullable="false" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.FK_Animals_Herds" FromRole="Herds" ToRole="Animals" />
+          <NavigationProperty Name="AnimalSpecies" Relationship="Self.FK_Herds_AnimalSpecies" FromRole="Herds" ToRole="AnimalSpecies" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_Herds_EntityStatuses" FromRole="Herds" ToRole="EntityStatuses" />
+        </EntityType>
+        <EntityType Name="ProductionIntervals">
+          <Key>
+            <PropertyRef Name="ProductionIntervalId" />
+          </Key>
+          <Property Name="ProductionIntervalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionIntervalName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProductionIntervalDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnimalSpiecesProductTypes" Relationship="Self.FK_AnimalSpiecesProductTypes_ProductionIntervals" FromRole="ProductionIntervals" ToRole="AnimalSpiecesProductTypes" />
+          <NavigationProperty Name="EntityStatuses" Relationship="Self.FK_ProductionInterval_EntityStatuses" FromRole="ProductionIntervals" ToRole="EntityStatuses" />
+        </EntityType>
+        <Association Name="FK_AnimalDetails_Animals">
+          <End Role="Animals" Type="Self.Animals" Multiplicity="1" />
+          <End Role="AnimalDetails" Type="Self.AnimalDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Animals">
+              <PropertyRef Name="AnimalId" />
+            </Principal>
+            <Dependent Role="AnimalDetails">
+              <PropertyRef Name="AnimalsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalProductTypes_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalProductTypes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalProductTypes_Genders">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="AnimalProductTypes">
+              <PropertyRef Name="ProductingByGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_AnimalProductTypes">
+          <End Role="AnimalProductTypes" Type="Self.AnimalProductTypes" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalProductTypes">
+              <PropertyRef Name="AnimalProductTypesId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="AnimalProductTypesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_EntityStatuses1">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_Genders">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="Sex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Animals_Herds">
+          <End Role="Herds" Type="Self.Herds" Multiplicity="0..1" />
+          <End Role="Animals" Type="Self.Animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Herds">
+              <PropertyRef Name="HerdId" />
+            </Principal>
+            <Dependent Role="Animals">
+              <PropertyRef Name="HerdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpecies_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalSpecies">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Herds_AnimalSpecies">
+          <End Role="AnimalSpecies" Type="Self.AnimalSpecies" Multiplicity="1" />
+          <End Role="Herds" Type="Self.Herds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnimalSpecies">
+              <PropertyRef Name="AnimalSpeciesId" />
+            </Principal>
+            <Dependent Role="Herds">
+              <PropertyRef Name="AnimalSpiecesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalSpiecesProductTypes_ProductionIntervals">
+          <End Role="ProductionIntervals" Type="Self.ProductionIntervals" Multiplicity="0..1" />
+          <End Role="AnimalSpiecesProductTypes" Type="Self.AnimalSpiecesProductTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductionIntervals">
+              <PropertyRef Name="ProductionIntervalId" />
+            </Principal>
+            <Dependent Role="AnimalSpiecesProductTypes">
+              <PropertyRef Name="ProductionIntervalsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Herds_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="Herds" Type="Self.Herds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="Herds">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionInterval_EntityStatuses">
+          <End Role="EntityStatuses" Type="Self.EntityStatuses" Multiplicity="1" />
+          <End Role="ProductionIntervals" Type="Self.ProductionIntervals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityStatuses">
+              <PropertyRef Name="EntityStatusId" />
+            </Principal>
+            <Dependent Role="ProductionIntervals">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ABEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AnimalDetails" EntityType="Self.AnimalDetails" />
+          <EntitySet Name="AnimalProductTypes" EntityType="Self.AnimalProductTypes" />
+          <EntitySet Name="Animals" EntityType="Self.Animals" />
+          <EntitySet Name="AnimalSpecies" EntityType="Self.AnimalSpecies" />
+          <EntitySet Name="AnimalSpiecesProductTypes" EntityType="Self.AnimalSpiecesProductTypes" />
+          <EntitySet Name="EntityStatuses" EntityType="Self.EntityStatuses" />
+          <EntitySet Name="Genders" EntityType="Self.Genders" />
+          <EntitySet Name="Herds" EntityType="Self.Herds" />
+          <EntitySet Name="ProductionIntervals" EntityType="Self.ProductionIntervals" />
+          <AssociationSet Name="FK_AnimalDetails_Animals" Association="Self.FK_AnimalDetails_Animals">
+            <End Role="Animals" EntitySet="Animals" />
+            <End Role="AnimalDetails" EntitySet="AnimalDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalProductTypes_EntityStatuses" Association="Self.FK_AnimalProductTypes_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalProductTypes_Genders" Association="Self.FK_AnimalProductTypes_Genders">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_AnimalProductTypes" Association="Self.FK_AnimalSpiecesProductTypes_AnimalProductTypes">
+            <End Role="AnimalProductTypes" EntitySet="AnimalProductTypes" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_AnimalSpecies" Association="Self.FK_Animals_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_EntityStatuses" Association="Self.FK_Animals_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_EntityStatuses1" Association="Self.FK_Animals_EntityStatuses1">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_Genders" Association="Self.FK_Animals_Genders">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Animals_Herds" Association="Self.FK_Animals_Herds">
+            <End Role="Herds" EntitySet="Herds" />
+            <End Role="Animals" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpecies_EntityStatuses" Association="Self.FK_AnimalSpecies_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_AnimalSpecies" Association="Self.FK_AnimalSpiecesProductTypes_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Herds_AnimalSpecies" Association="Self.FK_Herds_AnimalSpecies">
+            <End Role="AnimalSpecies" EntitySet="AnimalSpecies" />
+            <End Role="Herds" EntitySet="Herds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_EntityStatuses" Association="Self.FK_AnimalSpiecesProductTypes_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalSpiecesProductTypes_ProductionIntervals" Association="Self.FK_AnimalSpiecesProductTypes_ProductionIntervals">
+            <End Role="ProductionIntervals" EntitySet="ProductionIntervals" />
+            <End Role="AnimalSpiecesProductTypes" EntitySet="AnimalSpiecesProductTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Herds_EntityStatuses" Association="Self.FK_Herds_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="Herds" EntitySet="Herds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionInterval_EntityStatuses" Association="Self.FK_ProductionInterval_EntityStatuses">
+            <End Role="EntityStatuses" EntitySet="EntityStatuses" />
+            <End Role="ProductionIntervals" EntitySet="ProductionIntervals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ABModelStoreContainer" CdmEntityContainer="ABEntities">
+          <EntitySetMapping Name="AnimalDetails">
+            <EntityTypeMapping TypeName="ABModel.AnimalDetails">
+              <MappingFragment StoreEntitySet="AnimalDetails">
+                <ScalarProperty Name="AnimalsId" ColumnName="AnimalsId" />
+                <ScalarProperty Name="Test" ColumnName="Test" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnimalProductTypes">
+            <EntityTypeMapping TypeName="ABModel.AnimalProductTypes">
+              <MappingFragment StoreEntitySet="AnimalProductTypes">
+                <ScalarProperty Name="AnimalProductTypesId" ColumnName="AnimalProductTypesId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProductingByGender" ColumnName="ProductingByGender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Animals">
+            <EntityTypeMapping TypeName="ABModel.Animals">
+              <MappingFragment StoreEntitySet="Animals">
+                <ScalarProperty Name="AnimalId" ColumnName="AnimalId" />
+                <ScalarProperty Name="AnimalSpiecesId" ColumnName="AnimalSpiecesId" />
+                <ScalarProperty Name="HerdId" ColumnName="HerdId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AccountNum" ColumnName="AccountNum" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="AgeOnInitInDays" ColumnName="AgeOnInitInDays" />
+                <ScalarProperty Name="InitDate" ColumnName="InitDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnimalSpecies">
+            <EntityTypeMapping TypeName="ABModel.AnimalSpecies">
+              <MappingFragment StoreEntitySet="AnimalSpecies">
+                <ScalarProperty Name="AnimalSpeciesId" ColumnName="AnimalSpeciesId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnimalSpiecesProductTypes">
+            <EntityTypeMapping TypeName="ABModel.AnimalSpiecesProductTypes">
+              <MappingFragment StoreEntitySet="AnimalSpiecesProductTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AnimalSpiecesId" ColumnName="AnimalSpiecesId" />
+                <ScalarProperty Name="AnimalProductTypesId" ColumnName="AnimalProductTypesId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductionIntervalsId" ColumnName="ProductionIntervalsId" />
+                <ScalarProperty Name="FirstPossibleAbuseInDays" ColumnName="FirstPossibleAbuseInDays" />
+                <ScalarProperty Name="NextAbusePeriodInDays" ColumnName="NextAbusePeriodInDays" />
+                <ScalarProperty Name="MissAbusePenality" ColumnName="MissAbusePenality" />
+                <ScalarProperty Name="MaxPeriodProduction" ColumnName="MaxPeriodProduction" />
+                <ScalarProperty Name="DailyProductionDecreaseIndex" ColumnName="DailyProductionDecreaseIndex" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityStatuses">
+            <EntityTypeMapping TypeName="ABModel.EntityStatuses">
+              <MappingFragment StoreEntitySet="EntityStatuses">
+                <ScalarProperty Name="EntityStatusId" ColumnName="EntityStatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="ABModel.Genders">
+              <MappingFragment StoreEntitySet="Genders">
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sign" ColumnName="Sign" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Herds">
+            <EntityTypeMapping TypeName="ABModel.Herds">
+              <MappingFragment StoreEntitySet="Herds">
+                <ScalarProperty Name="HerdId" ColumnName="HerdId" />
+                <ScalarProperty Name="AnimalSpiecesId" ColumnName="AnimalSpiecesId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductionIntervals">
+            <EntityTypeMapping TypeName="ABModel.ProductionIntervals">
+              <MappingFragment StoreEntitySet="ProductionIntervals">
+                <ScalarProperty Name="ProductionIntervalId" ColumnName="ProductionIntervalId" />
+                <ScalarProperty Name="ProductionIntervalName" ColumnName="ProductionIntervalName" />
+                <ScalarProperty Name="ProductionIntervalDescription" ColumnName="ProductionIntervalDescription" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,14 @@
+﻿<h2>Herd</h2>
+@using (Html.BeginForm("herd", "sheep_shop", FormMethod.Get))
+{
+    <div>
+        App. day for Herd<br />
+        <input type="text" name="id" value="1" /><input type="submit" />
+    </div>
+}
+<div>
+    Output:<br />
+    <pre>
+@ViewBag.str;
+    </pre>
+</div>

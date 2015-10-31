@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f33aea33fff24111bbe44fb8ea54fd8a" Name="Diagram1">
+        <EntityTypeShape EntityType="ABModel.AnimalDetails" Width="1.5" PointX="7.5" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.AnimalProductTypes" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.Animals" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.AnimalSpecies" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.AnimalSpiecesProductTypes" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.EntityStatuses" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.Genders" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.Herds" Width="1.5" PointX="8.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABModel.ProductionIntervals" Width="1.5" PointX="3" PointY="16.5" IsExpanded="true" />
+        <AssociationConnector Association="ABModel.FK_AnimalDetails_Animals" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalProductTypes_EntityStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalProductTypes_Genders" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalSpiecesProductTypes_AnimalProductTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Animals_AnimalSpecies" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Animals_EntityStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Animals_EntityStatuses1" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Animals_Genders" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Animals_Herds" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalSpecies_EntityStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalSpiecesProductTypes_AnimalSpecies" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Herds_AnimalSpecies" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalSpiecesProductTypes_EntityStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_AnimalSpiecesProductTypes_ProductionIntervals" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_Herds_EntityStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="ABModel.FK_ProductionInterval_EntityStatuses" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

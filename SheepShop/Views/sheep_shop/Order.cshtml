@@ -1,0 +1,19 @@
+﻿<h2>Order</h2>
+@using (Html.BeginForm("order", "sheep_shop", FormMethod.Post))
+{
+    <div>
+        App. day for Order<br />
+        <input type="text" name="id" value="1" /><br />
+        Milk Order Quantity<br />
+        <input type="text" name="milk" value="1" /><br />
+        Skins Order Quantity<br />
+        <input type="text" name="skins" value="1" /><br />
+        <input type="submit" /><br />
+    </div>
+}
+<div>
+    Output:<br />
+    <pre>
+@ViewBag.str;
+    </pre>
+</div>
